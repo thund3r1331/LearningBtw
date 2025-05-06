@@ -8,7 +8,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
-
+// Center - потому что тут происходит обработка основных действий,понял,мразъ?
 public class ShadowCenter implements Listener {
     public void spawnBehindPlayer(Player player) {
         Vector vector = player.getLocation().getDirection().normalize().multiply(-5);
