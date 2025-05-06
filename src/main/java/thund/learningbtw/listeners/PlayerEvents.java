@@ -5,9 +5,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
-import thund.learningbtw.SummonShadow;
 
 import java.util.HashMap;
+
+import thund.learningbtw.ShadowCenter;
+
 
 
 public class PlayerEvents implements Listener {
@@ -24,7 +26,7 @@ public class PlayerEvents implements Listener {
         if (event.getDamager() instanceof Player player && playerMap.containsKey(player)) {
             playerMap.compute(player, (k, spawnChance) -> spawnChance + 1);
 
-            new SummonShadow().spawnBehindPlayer(player);
+            new ShadowCenter().spawnBehindPlayer(player);
 
         }
     }
