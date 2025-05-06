@@ -25,6 +25,7 @@ public class PlayerEvents implements Listener {
             playerMap.compute(player, (k, spawnChance) -> spawnChance + 1);
 
             new SummonShadow().spawnBehindPlayer(player);
+
         }
     }
 }

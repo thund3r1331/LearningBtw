@@ -11,6 +11,7 @@ public final class LearningBtw extends JavaPlugin {
     public void onEnable() {
         instance = this;
         Bukkit.getPluginManager().registerEvents(new PlayerEvents(), this);
+
     }
 
     @Override

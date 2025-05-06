@@ -16,6 +16,7 @@ public class SummonShadow implements Listener {
 
         armorStand.setGravity(false);
         armorStand.setCustomName("Shadow");
+
     }
 }
 
