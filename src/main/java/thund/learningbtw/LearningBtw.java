@@ -19,7 +19,7 @@ public final class LearningBtw extends JavaPlugin {
         instance = null;
     }
 
-    private JavaPlugin getInstance() {
+    public static JavaPlugin getInstance() {
         return instance;
     }
 }
