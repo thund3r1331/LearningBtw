@@ -8,6 +8,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 import org.bukkit.plugin.Plugin;
@@ -19,8 +20,10 @@ import thund.learningbtw.ShadowCenter;
 
 public class PlayerEvents implements Listener {
     public static HashMap<Player, Integer> playerMap = new HashMap<>(); //integer - шанс спавна тени
-    public final Set<Player> cooldownPlayer = new HashSet<>();
-    public final int cooldownTime = 100;
+    public final int cooldownTime = 600 * 20;
+    private final int maxChance = 100;
+
+    Random random = new Random();
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -32,23 +35,24 @@ public class PlayerEvents implements Listener {
     public void onDMGOtherEntity(EntityDamageByEntityEvent event) {
 
         if (event.getDamager() instanceof Player player && playerMap.containsKey(player)) {
-            if (cooldownPlayer.contains(player)) return;
+            playerMap.compute(player, (k, spawnChance) ->
+                    Math.min((spawnChance == null ? 0 : spawnChance) + 1, maxChance));
 
-            playerMap.compute(player, (k, spawnChance) -> spawnChance + 1);
+            int currentChance = playerMap.get(player);
+            if (shouldSpawnShadow(currentChance)) {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
 
-            new ShadowCenter().spawnBehindPlayer(player);
+                        new ShadowCenter().spawnBehindPlayer(player);
+                        playerMap.put(player, 0);
 
-            cooldownPlayer.add(player);
-
-            new BukkitRunnable(){
-                @Override
-                public void run(){
-
-                    cooldownPlayer.remove(player);
-
-                }
-            }.runTaskLater(LearningBtw.getInstance(),cooldownTime);
-
+                    }
+                }.runTaskLater(LearningBtw.getInstance(), cooldownTime);
+            }
         }
+    }
+    private boolean shouldSpawnShadow(int chance) {
+        return random.nextInt(100) < chance;
     }
 }
